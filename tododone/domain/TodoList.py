@@ -12,30 +12,31 @@ class TodoList:
         self.todos.append(todo)
         print("New Todo added!")
 
-    def remove_todo(self, todo_id):
-        todo = self.get_one_todo(todo_id)
+    def remove_todo(self, todo_desc):
+        todo = self.get_one_todo(todo_desc)
         if todo:
             self.todos.remove(todo)
-            print(f"Todo [{todo_id}] removed!")
+            print(f"Todo [{todo_desc}] removed!")
         else:
-            print(f"Todo with id {todo_id} not found.")
+            print(f"Todo with description [{todo_desc}] not found.")
 
     def get_all_todos(self):
         return self.todos
 
-    def get_one_todo(self, todo_id):
+    def get_one_todo(self, todo_desc):
         for todo in self.todos:
-            if todo.id == todo_id:
+            print(todo.description, todo_desc)
+            if todo.description == todo_desc:
                 return todo
         return None
 
-    def mark_todo_as_done(self, todo_id):
-        todo = self.get_one_todo(todo_id)
+    def mark_todo_as_done(self, todo_desc):
+        todo = self.get_one_todo(todo_desc)
         if todo:
             todo.is_done = True
             print(f"Todo [{todo.description}] marked as done!")
         else:
-            print(f"Todo with id {todo_id} not found.")
+            print(f"Todo with id {todo_desc} not found.")
 
     def to_dict(self):
         return [todo.to_dict() for todo in self.todos]

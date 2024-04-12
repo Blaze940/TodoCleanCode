@@ -26,9 +26,10 @@ class CommandProcessor:
         else:
             print(f"Unknown action: {action}")
 
+        self.writer.save(self.todo_list, filename)
+
     def add(self, description: str):
         self.todo_list.add_todo(description)
-        self.writer.save(self.todo_list, filename)
 
     def remove(self, todo_id: str):
         self.todo_list.remove_todo(todo_id)

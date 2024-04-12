@@ -16,11 +16,5 @@
         "description": "New GOLDTEAM TODO",
         "creation_date": "2024-04-12T22:50:52",
         "is_done": false
-    },
-    {
-        "id": 3,
-        "description": "New Postit",
-        "creation_date": "2024-04-12T22:49:09",
-        "is_done": false
     }
 ]
