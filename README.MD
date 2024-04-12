@@ -1,6 +1,20 @@
 # Running the app 🏃
-- **Adding todo** : python main.py "add" "New todos"
-- **Removing todo** : python main.py "remove" "123" 
+- **Show todos** : 
+```py
+python main.py "show" "New todos"
+```
+- **Adding todo** :
+```py
+python main.py "add" "New todos"
+```
+- **Remove todo** :
+```py
+python main.py "remove" "123"
+```
+- **Export todo** : 
+```py
+python main.py "export" "New todos"
+```
 
 # Description 📝
 The project is a python app, the main features are :

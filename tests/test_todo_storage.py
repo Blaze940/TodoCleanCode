@@ -8,8 +8,6 @@ from tododone.storage.todo_storage import TodoStorage
 class TestStorage(unittest.TestCase):
     def setUp(self):
         self.mock_open = mock_open(read_data='[]')
-
-
         self.patcher = patch('tododone.storage.open', self.mock_open)
         self.patcher.start()
         self.storage = TodoStorage()
