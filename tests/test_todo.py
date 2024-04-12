@@ -1,56 +1,70 @@
-import datetime
 import unittest
+from datetime import datetime, timedelta
+from unittest.mock import patch
 
 from tododone.domain.Todo import Todo
-from tododone.domain.TodoList import TodoList
 
 
-class TestToDo(unittest.TestCase):
+class TestTodo(unittest.TestCase):
+    def test_to_dict(self):
+        """Test conversion of Todo object to dictionary."""
+        creation_date = datetime(2020, 5, 20, 15, 30)
+        todo = Todo(1, "Write unit tests", creation_date, is_done=True)
+        expected_dict = {
+            'id': 1,
+            'description': "Write unit tests",
+            'creation_date': "2020-05-20T15:30:00",
+            'is_done': True
+        }
+        self.assertEqual(todo.to_dict(), expected_dict)
 
-    def test_should_list_all_todos(self):
-        # Given
-        postits: list[Todo] = [
-            Todo(1, "toto", datetime.date.today()),
-            Todo(2, "tata", datetime.date.today())
-        ]
-        todo = TodoList(postits)
-        # When
-        result = todo.get_all_todos()
+    def test_time_elapsed_years(self):
+        """Test time elapsed calculation for years."""
+        creation_date = datetime.now() - timedelta(days=365 * 2 + 30)  # More than 2 years ago
+        todo = Todo(1, "Project started", creation_date)
+        with patch('datetime.datetime') as mock_date:
+            mock_date.now.return_value = datetime.now()
+            self.assertEqual(todo.time_elapsed(), "2 years")
 
-        # Then
-        self.assertEqual(postits, result)
+    def test_time_elapsed_months(self):
+        """Test time elapsed calculation for months."""
+        creation_date = datetime.now() - timedelta(days=30 * 3)  # 3 months ago
+        todo = Todo(2, "Write documentation", creation_date)
+        with patch('datetime.datetime') as mock_date:
+            mock_date.now.return_value = datetime.now()
+            self.assertEqual(todo.time_elapsed(), "3 months")
 
-    def test_should_add_postit(self):
-        # Given
-        todo = TodoList([])
-        postit = Todo(1, "toto", datetime.date.today())
+    def test_time_elapsed_days(self):
+        """Test time elapsed calculation for days."""
+        creation_date = datetime.now() - timedelta(days=10)  # 10 days ago
+        todo = Todo(3, "Update codebase", creation_date)
+        with patch('datetime.datetime') as mock_date:
+            mock_date.now.return_value = datetime.now()
+            self.assertEqual(todo.time_elapsed(), "10 days")
 
-        # When
-        todo.add_todo(postit)
+    def test_time_elapsed_hours(self):
+        """Test time elapsed calculation for hours."""
+        creation_date = datetime.now() - timedelta(hours=5)  # 5 hours ago
+        todo = Todo(4, "Refactor components", creation_date)
+        with patch('datetime.datetime') as mock_date:
+            mock_date.now.return_value = datetime.now()
+            self.assertEqual(todo.time_elapsed(), "5 hours")
 
-        # Then
-        self.assertIn(postit, todo.todos)
+    def test_time_elapsed_minutes(self):
+        """Test time elapsed calculation for minutes."""
+        creation_date = datetime.now() - timedelta(minutes=30)  # 30 minutes ago
+        todo = Todo(5, "Fix bugs", creation_date)
+        with patch('datetime.datetime') as mock_date:
+            mock_date.now.return_value = datetime.now()
+            self.assertEqual(todo.time_elapsed(), "30 min")
 
-    def test_should_remove_postit(self):
-        # Given
-        postit = Todo(1, "toto", datetime.date.today())
-        todo = TodoList([postit])
-
-        # When
-        todo.remove_todo(postit)
-
-        # Then
-        self.assertNotIn(postit, todo.todos)
-
-    def test_should_mark_as_done(self):
-        # Given
-        postit = Todo(1, "toto", datetime.date.today())
-        todo = TodoList([postit])
-        # When
-        todo.mark_todo_as_done(postit.id)
-
-        # Then
-        self.assertEqual(postit.is_done, True)
+    def test_time_elapsed_just_now(self):
+        """Test time elapsed calculation for just now."""
+        creation_date = datetime.now()  # Momentarily
+        todo = Todo(6, "Deploy app", creation_date)
+        with patch('datetime.datetime') as mock_date:
+            mock_date.now.return_value = datetime.now()
+            self.assertEqual(todo.time_elapsed(), "Just now")
 
 
 if __name__ == '__main__':

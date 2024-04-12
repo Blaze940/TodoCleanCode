@@ -13,10 +13,12 @@ class TodoList:
         print("New Todo added!")
 
     def remove_todo(self, todo_id):
-        for todo in self.todos:
-            if todo.id == todo_id:
-                self.todos.remove(todo)
-        print(f"todo_id [{todo_id}] removed!")
+        todo = self.get_one_todo(todo_id)
+        if todo:
+            self.todos.remove(todo)
+            print(f"Todo [{todo_id}] removed!")
+        else:
+            print(f"Todo with id {todo_id} not found.")
 
     def get_all_todos(self):
         return self.todos
@@ -25,18 +27,18 @@ class TodoList:
         for todo in self.todos:
             if todo.id == todo_id:
                 return todo
+        return None
 
-    def mark_todo_as_done(self, todo_id: str):
+    def mark_todo_as_done(self, todo_id):
         todo = self.get_one_todo(todo_id)
-        todo.is_done = True
-        print(f"Todo [{todo.description}] marked as done!")
-        return todo
+        if todo:
+            todo.is_done = True
+            print(f"Todo [{todo.description}] marked as done!")
+        else:
+            print(f"Todo with id {todo_id} not found.")
 
     def to_dict(self):
         return [todo.to_dict() for todo in self.todos]
 
     def __str__(self):
-        display = ""
-        for todo in self.todos:
-            display += f"{todo}\n"
-        return display
+        return "\n".join(str(todo) for todo in self.todos)

@@ -14,8 +14,8 @@ class CommandProcessor:
           description = option
           self.add(description)
         elif action == "remove":
-          postIt_description = option
-          self.remove(postIt_description)
+          todo_description = option
+          self.remove(todo_description)
         elif action == "mark_as_done":
             todo_id = option
             self.mark_as_done(todo_id)
@@ -36,8 +36,8 @@ class CommandProcessor:
     def show(self):
         print(self.todo_list)
 
-    def mark_as_done(self, todo_id: str):
-        self.todo_list.mark_todo_as_done(todo_id)
+    def mark_as_done(self, todo_desc: str):
+        self.todo_list.mark_todo_as_done(todo_desc)
 
     # def export(self):
     #     self.writer.save(self.todo_lists, "postits.txt")
