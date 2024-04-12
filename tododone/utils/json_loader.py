@@ -17,4 +17,3 @@ class JsonLoader(IFileReader):
         with open(path, 'r') as file:
             todos_data = json.load(file, object_hook=decoder)
             return TodoList(todos=todos_data)
-

@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from tododone.domain import todo_list
+
+from tododone.domain.todo_list import TodoList
 from tododone.services.export_done_todos import DoneTodosExporter
 
 

@@ -1,8 +1,10 @@
-from tododone.domain import todo_list
+from tododone.domain.todo_list import TodoList
 from tododone.interfaces import IFileReader, IFileWriter
 from tododone.services.export_done_todos import DoneTodosExporter
 
 filename = "data/todos.json"
+
+
 class CommandProcessor:
     def __init__(self, reader: IFileReader, writer: IFileWriter, doneTodosExporter: DoneTodosExporter):
         self.reader: IFileReader = reader
@@ -13,18 +15,18 @@ class CommandProcessor:
 
     def process(self, action, option=""):
         if action == "add":
-          description = option
-          self.add(description)
+            description = option
+            self.add(description)
         elif action == "remove":
-          todo_description = option
-          self.remove(todo_description)
+            todo_description = option
+            self.remove(todo_description)
         elif action == "mark_as_done":
             todo_id = option
             self.mark_as_done(todo_id)
         elif action == "show":
-          self.show()
+            self.show()
         elif action == "export":
-          self.export()
+            self.export()
         else:
             print(f"Unknown action: {action}")
 
