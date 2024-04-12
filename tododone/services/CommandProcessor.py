@@ -1,11 +1,13 @@
 from tododone.domain import TodoList
 from tododone.interfaces import IFileReader, IFileWriter
+from tododone.services.export_done_todos import DoneTodosExporter
 
 filename = "data/todos.json"
 class CommandProcessor:
-    def __init__(self, reader: IFileReader, writer: IFileWriter):
+    def __init__(self, reader: IFileReader, writer: IFileWriter, doneTodosExporter: DoneTodosExporter):
         self.reader: IFileReader = reader
         self.writer: IFileWriter = writer
+        self.doneTodosExporter: DoneTodosExporter = doneTodosExporter
 
         self.todo_list: TodoList = self.reader.load(filename)
 
@@ -21,8 +23,8 @@ class CommandProcessor:
             self.mark_as_done(todo_id)
         elif action == "show":
           self.show()
-        # elif action == "export":
-        #   self.export()
+        elif action == "export":
+          self.export()
         else:
             print(f"Unknown action: {action}")
 
@@ -40,6 +42,5 @@ class CommandProcessor:
     def mark_as_done(self, todo_desc: str):
         self.todo_list.mark_todo_as_done(todo_desc)
 
-    # def export(self):
-    #     self.writer.save(self.todo_lists, "postits.txt")
-    #     print("postits exported!")
+    def export(self):
+        self.doneTodosExporter.export_done_todos(self.todo_list)

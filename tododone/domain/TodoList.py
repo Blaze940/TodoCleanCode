@@ -1,6 +1,7 @@
 import datetime
 
 from tododone.domain.Todo import Todo
+from tododone.utils.todo_list_util import sort_todos
 
 
 class TodoList:
@@ -42,4 +43,5 @@ class TodoList:
         return [todo.to_dict() for todo in self.todos]
 
     def __str__(self):
-        return "\n".join(str(todo) for todo in self.todos)
+        sorted_todos = sort_todos(self.todos)
+        return "\n".join(str(todo) for todo in sorted_todos)
