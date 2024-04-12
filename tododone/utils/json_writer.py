@@ -1,6 +1,6 @@
 import json
 
-from tododone.domain import TodoList
+from tododone.domain.todo_list import TodoList
 from tododone.interfaces.IFileWriter import IFileWriter
 
 

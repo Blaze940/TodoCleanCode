@@ -1,4 +1,4 @@
-from tododone.domain import TodoList
+from tododone.domain import todo_list
 from tododone.interfaces import IFileReader, IFileWriter
 from tododone.services.export_done_todos import DoneTodosExporter
 

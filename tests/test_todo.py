@@ -2,7 +2,7 @@ import unittest
 from datetime import datetime, timedelta
 from unittest.mock import patch
 
-from tododone.domain.Todo import Todo
+from tododone.domain.todo import Todo
 
 
 class TestTodo(unittest.TestCase):

@@ -1,6 +1,6 @@
 import datetime
 
-from tododone.domain.Todo import Todo
+from tododone.domain.todo import Todo
 from tododone.utils.todo_list_util import sort_todos
 
 
@@ -11,7 +11,7 @@ class TodoList:
     def add_todo(self, todo_description: str):
         todo = Todo(id=len(self.todos) + 1, description=todo_description, creation_date=datetime.datetime.now())
         self.todos.append(todo)
-        print("New Todo added!")
+        print(f"Todo [{todo_description}] added!")
 
     def remove_todo(self, todo_desc):
         todo = self.get_one_todo(todo_desc)
@@ -37,7 +37,7 @@ class TodoList:
             todo.is_done = True
             print(f"Todo [{todo.description}] marked as done!")
         else:
-            print(f"Todo with id {todo_desc} not found.")
+            print(f"Todo with id [{todo_desc}] not found.")
 
     def to_dict(self):
         return [todo.to_dict() for todo in self.todos]

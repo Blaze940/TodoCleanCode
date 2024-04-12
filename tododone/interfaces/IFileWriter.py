@@ -1,4 +1,4 @@
-from tododone.domain import TodoList
+from tododone.domain.todo_list import TodoList
 
 
 class IFileWriter:

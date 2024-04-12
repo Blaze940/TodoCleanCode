@@ -1,9 +1,9 @@
 import unittest
 from unittest.mock import patch
-from tododone.domain.Todo import Todo
+from tododone.domain.todo import Todo
 import datetime
 
-from tododone.domain.TodoList import TodoList
+from tododone.domain.todo_list import TodoList
 
 
 class TestTodoList(unittest.TestCase):
@@ -23,32 +23,32 @@ class TestTodoList(unittest.TestCase):
 
     def test_remove_todo(self):
         """ Test the remove_todo method with valid id """
-        self.todo_list.remove_todo(1)
+        self.todo_list.remove_todo("Write unit tests")
         self.assertEqual(len(self.todo_list.todos), 1)
         self.assertNotIn(1, [todo.id for todo in self.todo_list.todos])
 
     def test_remove_todo_not_found(self):
         """ Test the remove_todo method with invalid id """
         with patch('builtins.print') as mocked_print:
-            self.todo_list.remove_todo(99)
-            mocked_print.assert_called_with("Todo with id 99 not found.")
+            self.todo_list.remove_todo("Oh")
+            mocked_print.assert_called_with("Todo with description [Oh] not found.")
 
     def test_get_one_todo(self):
         """ Test the get_one_todo method """
-        todo = self.todo_list.get_one_todo(1)
+        todo = self.todo_list.get_one_todo("Write unit tests")
         self.assertEqual(todo.id, 1)
         self.assertEqual(todo.description, "Write unit tests")
 
     def test_mark_todo_as_done(self):
         """ Test marking a todo as done """
-        self.todo_list.mark_todo_as_done(1)
+        self.todo_list.mark_todo_as_done("Write unit tests")
         self.assertTrue(self.todo_list.todos[0].is_done)
 
     def test_mark_todo_as_done_not_found(self):
         """ Test marking a non-existent todo as done """
         with patch('builtins.print') as mocked_print:
-            self.todo_list.mark_todo_as_done(99)
-            mocked_print.assert_called_with("Todo with id 99 not found.")
+            self.todo_list.mark_todo_as_done("99")
+            mocked_print.assert_called_with("Todo with id [99] not found.")
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,8 +1,8 @@
 import json
 from datetime import datetime
 
-from tododone.domain.Todo import Todo
-from tododone.domain.TodoList import TodoList
+from tododone.domain.todo import Todo
+from tododone.domain.todo_list import TodoList
 from tododone.interfaces.IFileReader import IFileReader
 
 

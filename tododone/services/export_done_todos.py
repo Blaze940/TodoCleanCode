@@ -1,4 +1,5 @@
-from tododone.domain import TodoList
+from tododone.domain import todo_list
+from tododone.domain.todo_list import TodoList
 from tododone.interfaces.IDoneTodosExporter import IDoneTodosExporter
 from tododone.utils.todo_list_util import filter_done_todos, sort_todos
 
@@ -12,7 +13,7 @@ class DoneTodosExporter(IDoneTodosExporter):
         done_todos = filter_done_todos(todo_list)
 
         # Sort todos by creation date, descending
-        done_todos = sort_todos(done_todos, ascending=False)
+        done_todos = sort_todos(done_todos, descending=True)
 
         # Create the content of the report
         content = "# Report\n## Tasks done:\n\n"

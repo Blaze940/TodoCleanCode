@@ -1,6 +1,6 @@
 import sys
 
-from tododone.services.CommandProcessor import CommandProcessor
+from tododone.services.command_processor import CommandProcessor
 from tododone.services.export_done_todos import DoneTodosExporter
 from tododone.utils.json_loader import JsonLoader
 from tododone.utils.json_writer import JsonWriter

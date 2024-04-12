@@ -1,7 +1,7 @@
 # Running the app 🏃
 - **Show todos** : 
 ```py
-python main.py "show" "New todos"
+python main.py "show"
 ```
 - **Adding todo** :
 ```py
@@ -9,11 +9,15 @@ python main.py "add" "New todos"
 ```
 - **Remove todo** :
 ```py
-python main.py "remove" "123"
+python main.py "remove" "New todos"
+```
+- **Mark todo as done** :
+```py
+python main.py "mark_as_done" "New todos"
 ```
 - **Export todo** : 
 ```py
-python main.py "export" "New todos"
+python main.py "export"
 ```
 
 # Description 📝
