@@ -1,6 +1,8 @@
 import sys
 
-from setup import process_command
+from tododone.services.CommandProcessor import CommandProcessor
+from tododone.utils.json_loader import JsonLoader
+from tododone.utils.json_writer import JsonWriter
 
 
 def main():
@@ -11,7 +13,8 @@ def main():
   action = sys.argv[1]
   option = sys.argv[2] if len(sys.argv) > 2 else ""
 
-  process_command(action, option)
+  commandProcessor = CommandProcessor(JsonLoader(), JsonWriter())
+  commandProcessor.process(action, option)
 
 if __name__ == "__main__":
   main()

@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "description": "Buy milk",
+        "creation_date": "2023-10-01T14:30:00",
+        "is_done": false
+    },
+    {
+        "id": 2,
+        "description": "Prepare meeting notes",
+        "creation_date": "2023-10-02T09:20:00",
+        "is_done": true
+    },
+    {
+        "id": 4,
+        "description": "New GOLDTEAM TODO",
+        "creation_date": "2024-04-12T22:50:52",
+        "is_done": false
+    },
+    {
+        "id": 3,
+        "description": "New Postit",
+        "creation_date": "2024-04-12T22:49:09",
+        "is_done": false
+    }
+]

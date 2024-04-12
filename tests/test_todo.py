@@ -1,19 +1,19 @@
 import datetime
 import unittest
 
-from tododone.domain.Postit import PostIt
 from tododone.domain.Todo import Todo
+from tododone.domain.TodoList import TodoList
 
 
-class MyTestCase(unittest.TestCase):
+class TestToDo(unittest.TestCase):
 
     def test_should_list_all_todos(self):
         # Given
-        postits: list[PostIt] = [
-            PostIt(1, "toto", datetime.date.today()),
-            PostIt(2, "tata", datetime.date.today())
+        postits: list[Todo] = [
+            Todo(1, "toto", datetime.date.today()),
+            Todo(2, "tata", datetime.date.today())
         ]
-        todo = Todo(postits)
+        todo = TodoList(postits)
         # When
         result = todo.get_all_todos()
 
@@ -22,32 +22,32 @@ class MyTestCase(unittest.TestCase):
 
     def test_should_add_postit(self):
         # Given
-        todo = Todo([])
-        postit = PostIt(1, "toto", datetime.date.today())
+        todo = TodoList([])
+        postit = Todo(1, "toto", datetime.date.today())
 
         # When
-        todo.add(postit)
+        todo.add_todo(postit)
 
         # Then
         self.assertIn(postit, todo.todos)
 
     def test_should_remove_postit(self):
         # Given
-        postit = PostIt(1, "toto", datetime.date.today())
-        todo = Todo([postit])
+        postit = Todo(1, "toto", datetime.date.today())
+        todo = TodoList([postit])
 
         # When
-        todo.remove(postit)
+        todo.remove_todo(postit)
 
         # Then
         self.assertNotIn(postit, todo.todos)
 
     def test_should_mark_as_done(self):
         # Given
-        postit = PostIt(1, "toto", datetime.date.today())
-        todo = Todo([postit])
+        postit = Todo(1, "toto", datetime.date.today())
+        todo = TodoList([postit])
         # When
-        todo.mark_as_done(postit.id)
+        todo.mark_todo_as_done(postit.id)
 
         # Then
         self.assertEqual(postit.is_done, True)
