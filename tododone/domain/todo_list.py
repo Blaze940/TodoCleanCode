@@ -26,7 +26,6 @@ class TodoList:
 
     def get_one_todo(self, todo_desc):
         for todo in self.todos:
-            print(todo.description, todo_desc)
             if todo.description == todo_desc:
                 return todo
         return None

@@ -3,7 +3,7 @@
         "id": 1,
         "description": "Buy milk",
         "creation_date": "2023-10-01T14:30:00",
-        "is_done": false
+        "is_done": true
     },
     {
         "id": 2,
@@ -22,5 +22,11 @@
         "description": "New party",
         "creation_date": "2024-04-13T00:41:39",
         "is_done": true
+    },
+    {
+        "id": 5,
+        "description": "New todos",
+        "creation_date": "2024-04-13T02:14:32",
+        "is_done": false
     }
 ]

@@ -17,7 +17,7 @@ class TestJsonLoader(unittest.TestCase):
         mock_json_load.return_value = [{"id": 1, "content": "Finish the report", "done": False}]
 
         # When
-        result = self.loader.load_todos("dummy_path.json")
+        result = self.loader.load("dummy_path.json")
 
         # Then
         mock_file.assert_called_once_with("dummy_path.json", 'r')

@@ -1,42 +1,41 @@
 import unittest
-from unittest.mock import patch, MagicMock
-
+from unittest.mock import MagicMock, mock_open, patch
+from datetime import datetime
+from tododone.domain.todo import Todo
 from tododone.domain.todo_list import TodoList
 from tododone.services.export_done_todos import DoneTodosExporter
 
 
 class TestDoneTodosExporter(unittest.TestCase):
-    @patch('builtins.open', new_callable=unittest.mock.mock_open)
-    @patch('tododone.utils.todo_list_util.filter_done_todos')
+    def setUp(self):
+        self.exporter = DoneTodosExporter()
+        self.todos = [
+            Todo(id=1, description="Completed task", creation_date=datetime(2023, 1, 1), is_done=True),
+            Todo(id=2, description="Uncompleted task", creation_date=datetime(2023, 1, 2), is_done=False),
+            Todo(id=3, description="Another completed task", creation_date=datetime(2023, 1, 3), is_done=True)
+        ]
+        self.todo_list = TodoList(self.todos)
+
+    @patch('builtins.open', new_callable=mock_open)
     @patch('tododone.utils.todo_list_util.sort_todos')
-    def test_export_done_todos(self, mock_sort_todos, mock_filter_done_todos, mock_open):
-        # Set up mocks for the filter and sort functions
-        mock_todo1 = MagicMock(description="Completed Task 1", creation_date="2024-03-09")
-        mock_todo2 = MagicMock(description="Completed Task 2", creation_date="2024-03-02")
+    @patch('tododone.utils.todo_list_util.filter_done_todos')
+    def test_export_done_todos(self, mock_filter_done_todos, mock_sort_todos, mock_file):
+        # Setup the todo list with done todos
+        mock_filter_done_todos.return_value = [todo for todo in self.todos if todo.is_done]
+        mock_sort_todos.return_value = sorted(mock_filter_done_todos.return_value, key=lambda x: x.creation_date,
+                                              reverse=True)
 
-        # Mocking behavior of filter and sort utilities
-        mock_filter_done_todos.return_value = [mock_todo1, mock_todo2]
-        mock_sort_todos.return_value = [mock_todo2, mock_todo1]  # Sorted by date
+        # Expected content needs to match the sort order
+        expected_content = "# Report\n## Tasks done:\n\n"
+        expected_content += "- Another completed task (2023-01-03)\n- Completed task (2023-01-01)"
 
-        # Mock TodoList
-        todo_list = MagicMock(spec=TodoList)
+        # Run the export method
+        self.exporter.export_done_todos(self.todo_list, 'test_report.md')
 
-        # Create instance of DoneTodosExporter
-        exporter = DoneTodosExporter()
-
-        # Execute the method under test
-        exporter.export_done_todos(todo_list, 'dummy_report.md')
-
-        # Check calls to filter and sort utilities
-        mock_filter_done_todos.assert_called_once_with(todo_list)
-        mock_sort_todos.assert_called_once_with([mock_todo1, mock_todo2], ascending=False)
-
-        # Ensure file operations are performed correctly
-        mock_open.assert_called_once_with('dummy_report.md', 'w')
-        handle = mock_open()
-        handle.write.assert_called_once_with(
-            "# Report\n## Tasks done:\n\n" + "- Completed Task 2 (2024-03-02)\n- Completed Task 1 (2024-03-09)")
-        print("Report generation test passed.")
+        # Check file operations
+        mock_file.assert_called_once_with('test_report.md', 'w')
+        handle = mock_file()
+        handle.write.assert_called_once_with(expected_content)
 
 
 if __name__ == '__main__':

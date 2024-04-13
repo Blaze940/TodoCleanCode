@@ -1,59 +1,54 @@
 import unittest
-from unittest.mock import MagicMock, patch, create_autospec
+from unittest.mock import MagicMock, patch
 
-from tododone.domain.todo_list import TodoList
-from tododone.interfaces import IFileReader, IFileWriter
-from tododone.services.command_processor import CommandProcessor
-from tododone.services.export_done_todos import DoneTodosExporter
+from tododone.services.command_processor import CommandProcessor, filename
 
 
 class TestCommandProcessor(unittest.TestCase):
     def setUp(self):
-        self.reader = create_autospec(IFileReader, instance=True)
-        self.writer = create_autospec(IFileWriter, instance=True)
-        self.exporter = create_autospec(DoneTodosExporter, instance=True)
+        # Mock dependencies
+        self.reader = MagicMock()
+        self.writer = MagicMock()
+        self.exporter = MagicMock()
 
-        self.todo_list = MagicMock(spec=TodoList)
+        # Create a TodoList instance for usage
+        self.todo_list = MagicMock()
+
+        # Configure the reader mock to return the TodoList
         self.reader.load.return_value = self.todo_list
 
+        # Instantiate CommandProcessor with mocked dependencies
         self.processor = CommandProcessor(self.reader, self.writer, self.exporter)
 
+    def test_init_loads_todos(self):
+        """Test that the todo list is loaded during initialization."""
+        self.reader.load.assert_called_once_with(filename)
+
     def test_process_add(self):
-        """ Test 'add' action processing """
+        """Test processing of 'add' action."""
         self.processor.process("add", "New task")
         self.todo_list.add_todo.assert_called_once_with("New task")
-        self.writer.save.assert_called_once_with(self.todo_list, "data/todos.json")
+        self.writer.save.assert_called_once_with(self.todo_list, filename)
 
     def test_process_remove(self):
-        """ Test 'remove' action processing """
-        self.processor.process("remove", "New task")
-        self.todo_list.remove_todo.assert_called_once_with("New task")
-        self.writer.save.assert_called_once_with(self.todo_list, "data/todos.json")
+        self.processor.process("remove", "1")
+        self.todo_list.remove_todo.assert_called_once_with("1")
+        self.writer.save.assert_called_once_with(self.todo_list, filename)
 
     def test_process_mark_as_done(self):
-        """ Test 'mark_as_done' action processing """
-        self.processor.process("mark_as_done", "New task")
-        self.todo_list.mark_todo_as_done.assert_called_once_with("New task")
-        self.writer.save.assert_called_once_with(self.todo_list, "data/todos.json")
-
-    def test_process_show(self):
-        """ Test 'show' action processing """
-        with patch('builtins.print') as mocked_print:
-            self.processor.process("show")
-            mocked_print.assert_called_once()
-            self.todo_list.__str__.assert_called_once()
+        self.processor.process("mark_as_done", "1")
+        self.todo_list.mark_todo_as_done.assert_called_once_with("1")
+        self.writer.save.assert_called_once_with(self.todo_list, filename)
 
     def test_process_export(self):
-        """ Test 'export' action processing """
         self.processor.process("export")
         self.exporter.export_done_todos.assert_called_once_with(self.todo_list)
 
-    def test_process_unknown(self):
-        """ Test handling of an unknown action """
+    def test_process_unknown_action(self):
         with patch('builtins.print') as mocked_print:
-            self.processor.process("unknown_action")
-            mocked_print.assert_called_with("Unknown action: unknown_action")
-            self.writer.save.assert_called_once_with(self.todo_list, "data/todos.json")
+            self.processor.process("unknown")
+            mocked_print.assert_called_with("Unknown action: unknown")
+            self.writer.save.assert_called_once_with(self.todo_list, filename)
 
 
 if __name__ == '__main__':

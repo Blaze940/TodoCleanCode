@@ -21,7 +21,7 @@
 
 ### Implications
 
-> - Structure Claire : Chaque couche a un rôle défini, rendant le système plus facile à comprendre et à maintenir.
+> - Structure Claire : Chaque couches a un rôle défini, rendant le système plus facile à comprendre et à maintenir.
 > - Testabilité : Les couches individuelles peuvent être testées indépendamment.
 > - Flexibilité : Les couches peuvent être modifiées indépendamment au fur à mesure que les exigences évoluent.
 
