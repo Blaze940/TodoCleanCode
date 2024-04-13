@@ -1,4 +1,4 @@
-# Running the app 🏃
+# Run the app 🏃
 - **Show todos** : 
 ```py
 python main.py "show"
@@ -20,6 +20,11 @@ python main.py "mark_as_done" "New todos"
 python main.py "export"
 ```
 
+# Run the tests 🧪:
+```py
+python -m unittest discover -s tests
+
+```
 # Description 📝
 The project is a python app, the main features are :
 - Add a new todo.
