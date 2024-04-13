@@ -9,13 +9,9 @@ class DoneTodosExporter(IDoneTodosExporter):
         pass
 
     def export_done_todos(self, todo_list: TodoList, filename='report.md'):
-        # Filter the list to get only the completed todos
         done_todos = filter_done_todos(todo_list)
-
-        # Sort todos by creation date, descending
         done_todos = sort_todos(done_todos, descending=True)
 
-        # Create the content of the report
         content = "# Report\n## Tasks done:\n\n"
         content += "\n".join(f"- {todo.description} ({todo.creation_date.strftime('%Y-%m-%d')})" for todo in done_todos)
 

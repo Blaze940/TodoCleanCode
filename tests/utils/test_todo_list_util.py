@@ -16,19 +16,16 @@ class TestTodoUtilities(unittest.TestCase):
         self.todo_list = TodoList(self.todos)
 
     def test_filter_done_todos(self):
-        """Test only completed todos are returned."""
         done_todos = filter_done_todos(self.todo_list)
         self.assertEqual(len(done_todos), 2)
         for todo in done_todos:
             self.assertTrue(todo.is_done)
 
     def test_sort_todos_ascending(self):
-        """Test todos are sorted by creation date in ascending order."""
         sorted_todos = sort_todos(self.todos, descending=False)
         self.assertEqual(sorted_todos, [self.todos[2], self.todos[1], self.todos[0]])
 
     def test_sort_todos_descending(self):
-        """Test todos are sorted by creation date in descending order."""
         sorted_todos = sort_todos(self.todos, descending=True)
         self.assertEqual(sorted_todos, [self.todos[0], self.todos[1], self.todos[2]])
 

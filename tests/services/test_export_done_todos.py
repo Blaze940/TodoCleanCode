@@ -25,14 +25,11 @@ class TestDoneTodosExporter(unittest.TestCase):
         mock_sort_todos.return_value = sorted(mock_filter_done_todos.return_value, key=lambda x: x.creation_date,
                                               reverse=True)
 
-        # Expected content needs to match the sort order
         expected_content = "# Report\n## Tasks done:\n\n"
         expected_content += "- Another completed task (2023-01-03)\n- Completed task (2023-01-01)"
 
-        # Run the export method
         self.exporter.export_done_todos(self.todo_list, 'test_report.md')
 
-        # Check file operations
         mock_file.assert_called_once_with('test_report.md', 'w')
         handle = mock_file()
         handle.write.assert_called_once_with(expected_content)

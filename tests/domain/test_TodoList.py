@@ -8,7 +8,6 @@ from tododone.domain.todo_list import TodoList
 
 class TestTodoList(unittest.TestCase):
     def setUp(self):
-        """ Setup a known state of TodoList before each test """
         self.todos = [
             Todo(id=1, description="Write unit tests", creation_date=datetime.datetime.now()),
             Todo(id=2, description="Create presentation", creation_date=datetime.datetime.now())
